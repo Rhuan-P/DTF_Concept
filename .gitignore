@@ -1,0 +1,42 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE (VS Code)
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# DTF Documentation - Opcional: incluir ou excluir conforme política do projeto
+# .dtc/  # Comentado por padrão. Descomente se quiser incluir documentação técnica no repositório
+
+# Environment variables
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+.Dockerfile*
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Compiled files
+*.egg-info/
+build/
+dist/
+
+# Jupyter Notebook (se usar notebook Python)
+.ipynb_checkpoints
+
+# MyPy type stubs (opcional, depende de configuração do projeto)
+.pyi
