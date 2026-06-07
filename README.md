@@ -48,40 +48,66 @@ O DTF parte do princípio que **tudo nasce da clareza do contexto**.
 
 ### O Ciclo DTF
 
-```
-Contexto → Requisito → Implementação → Aceitação → Código
+```bash
+┌─────────┐    ┌──────────┐    ┌─────────┐    ┌──────────┐
+│  DTC    │ →  │   DTR   │ →  │  DTI    │ →  │   DTA    │
+│Contexto │    │Requisito│    │Implantaç.│    │Aceitação │
+└─────────┘    └──────────┘    └─────────┘    └──────────┘
 ```
 
-Os documentos técnicos são artefatos desse fluxo:
+| Documento | Pergunta Principal | Entregável Principal |
+|-----------|-------------------|---------------------|
+| **DTC** (Contexto) | O QUE está sendo construído? | .dtc/context.md + decisões arquiteturais |
+| **DTR** (Requisito) | COMO será implementado? | DTRs para features complexas |
+| **DTI** (Implementação) | CÓDIGO finalizado | Código + exemplos de uso |
+| **DTA** (Aceitação) | FUNCIONA conforme esperado? | Testes + checklist de validação |
 
-| Documento | Abreviação | Função |
-|-----------|------------|---------|
-| **Documento Técnico de Contexto** | **DTC** | Define arquitetura, padrões e estrutura do sistema. Fonte da verdade arquitetural. |
-| **Documento Técnico de Requisito** | **DTR** | Define o problema ou funcionalidade a ser implementada. |
-| **Documento Técnico de Implementação** | **DTI** | Define a solução técnica detalhada. |
-| **Documento Técnico de Aceitação** | **DTA** | Define critérios de validação da implementação. |
+> 📌 **Importante**: DTC é único por projeto. DTR/DTI/DTA são criados conforme features evoluem!
 
 ---
 
-## 📁 Estrutura do Repositório DTF
+## 🛠️ Ferramentas
 
-Todos os projetos que utilizam DTF devem ter esta estrutura:
+### Para humanos:
+- GitHub Desktop (interface gráfica para Git)
+- VSCodium + extensão Prettier/ESLint
 
-```
-seu-projeto/
-├── .dtc/                          # ⭐ Contexto específico deste PROJETO
-│   ├── context.md                 # Documentação principal do contexto
+### Para IA:
+- Prompt com contexto explícito via `.dtc/`
+- ADRs como referência de decisões passadas
+
+---
+
+## 📦 Estrutura de Repositório
+
+```bash
+[Project Root]/
+├── .dtc/                           # ⭐ DOCUMENTAÇÃO TÉCNICA DE CONTEXTO (projeto específico)
+│   ├── context.md                 # Fonte da verdade arquitetural + contexto geral
 │   ├── vision.md                  # Visão e objetivos do projeto
-│   ├── scope.md                   # Escopo e limites
-│   ├── principles.md              # Princípios do projeto
-│   ├── architecture.md            # Arquitetura do sistema
-│   ├── glossary.md                # Glossário de termos
-│   ├── templates/                 # Templates específicos do projeto
+│   ├── scope.md                   # O que está dentro/fora do escopo
+│   ├── architecture.md            # Detalhes arquiteturais
+│   ├── principles.md              # Princípios de design
+│   ├── glossary.md                # Terminologia específica
 │   └── decisions/                 # Decisões arquiteturais (ADRs)
+│       ├── 001-database-choice.md # ADRs completos
+│       └── ...
+├── .dtc/examples/                 # Exemplos preenchidos de documentos (CRÍTICO!)
+│   ├── context-md-exemplo-preenchido.md  # DTC COMPLETO PREENCHIDO
+│   └── dta-template-exemplo-preenchido.md # DTA COMPLETO PREENCHIDO
+├── templates/                     # Templates oficiais
+│   ├── DTC-template.md            # Template vazio para novos projetos
+│   ├── DTR-template-genérico-preenchido.md  # ⭐ TEMPLATE GENÉRICO (não hardcoded)
+│   ├── DTI-template.md            # Template de implementação
+│   ├── DTA-template.md            # Template de aceitação
+│   └── ADR-template.md            # Template de decisão arquitetural
 ├── src/                           # Código fonte
 ├── tests/                         # Testes
 ├── docs/                          # Documentação geral
-└── .dtc/README.md                 # ⭐ Explica a estrutura do .dtc/
+├── .gitignore                     # Padrão DTF
+├── LICENSE                        # MIT License
+└── README.md                      # Este arquivo (portal)
+
 ```
 
 ### 📍 Onde é o `.dtc/`?
@@ -111,6 +137,7 @@ echo "# Arquitetura" > architecture.md
 
 # Ver templates disponíveis
 cat ../templates/DTC-template.md  # Template completo do DTC
+cat ../templates/DTR-template-genérico-preenchido.md  # ⭐ TEMPLATE GENÉRICO!
 ```
 
 ---
@@ -141,18 +168,18 @@ Aprenda a utilizar o DTF:
 
 Documentação técnica oficial e especificação completa:
 
-- **[dtf/context/](dtf/context/) **— Fundamentação conceitual detalhada**
+- **[dtf/context/](dtf/context/)** — Fundamentação conceitual detalhada
   - [Visão e Objetivos](dtf/context/vision.md)
   - [Escopo e Aplicabilidade](dtf/context/scope.md)
   - [Princípios Fundamentais](dtf/context/principles.md)
   - [Arquitetura da Metodologia](dtf/context/architecture.md)
   - [Glossário](dtf/context/glossary.md)
 
-- **[dtf/methodology/](dtf/methodology/) — Especificação completa**
+- **[dtf/methodology/](dtf/methodology/)** — Especificação completa
   - [Metodologia DTF](dtf/methodology/dtf.md)
   - [Fluxo de Trabalho](dtf/methodology/workflow.md)
 
-- **[dtf/standards/](dtf/standards/) — Padrões oficiais**
+- **[dtf/standards/](dtf/standards/)** — Padrões oficiais
   - [Padrões de Documentação](dtf/standards/documentation.md)
   - [Estrutura de Repositórios](dtf/standards/repository.md)
 
@@ -161,9 +188,10 @@ Documentação técnica oficial e especificação completa:
 Templates oficiais para criação dos documentos:
 
 - [DTC-template.md](templates/DTC-template.md) — Template do Documento Técnico de Contexto
-- [DTR-template.md](templates/DTR-template.md) — Template do Documento Técnico de Requisito  
+- [DTR-template-genérico-preenchido.md](templates/DTR-template-genérico-preenchido.md) — ⭐ TEMPLATE GENÉRICO (upload, feature qualquer)
 - [DTI-template.md](templates/DTI-template.md) — Template do Documento Técnico de Implementação
 - [DTA-template.md](templates/DTA-template.md) — Template do Documento Técnico de Aceitação
+- [ADR-template.md](templates/ADR-template.md) — Template de Decisão Arquitetural
 
 ### 5. Exemplos Práticos - `examples/`
 
@@ -177,122 +205,71 @@ Veja casos de uso reais:
 Ferramentas e integrações:
 
 - [Extensões DTF](ecosystem/extension.md)
-- [Automação via MCP](ecosystem/mcp.md)
 
 ### 7. Roadmap - `roadmap/`
 
 Evolução da metodologia:
 
-- [Evolução do DTF](roadmap/evolution.md)
+- [Evolução do DTF](roadmap/evolution.md) — Próximos passos no desenvolvimento
 
 ---
 
-## 🌟 Benefícios
-
-### Para Desenvolvedores
-
-- **Clareza**: Decisões técnicas explícitas antes do código
-- **Consistência**: Arquitetura preservada ao longo do tempo
-- **Eficiência**: Menos retrabalho e decisões improvisadas
-
-### Para Equipes
-
-- **Alinhamento**: Contexto compartilhado entre membros
-- **Onboarding**: Nova equipe entende arquitetura rapidamente
-- **Colaboração**: Base sólida para discussões técnicas
-
-### Para Ferramentas de IA
-
-- **Contexto Estruturado**: Informações organizadas para processamento
-- **Decisões Explícitas**: Menos ambiguidade nas instruções
-- **Qualidade**: Geração de código alinhada à arquitetura
-
----
-
-## 🚀 Começando com DTF
-
-### Para Novos Projetos
-
-1. **Crie o `.dtc/`**: Defina contexto e arquitetura do projeto
-2. **Estruture o Repositório**: Utilize o padrão `src/`, `tests/`, `.dtc/`
-3. **Desenvolva Funcionalidades**: Siga o fluxo DTR → DTI → DTA
-4. **Integre com IA**: Forneça contexto estruturado no `.dtc/`
-
-### Para Projetos Existentes
-
-1. **Documente Arquitetura**: Crie `.dtc/context.md` retroativo
-2. **Estruture Novas Funcionalidades**: Aplique DTR → DTI → DTA
-3. **Migre Gradualmente**: Adote DTF em novas implementações
-
----
-
-## 💡 Filosofia
-
-O DTF parte da premissa de que software é consequência de decisões.
-
-> "Problemas de software raramente são problemas de implementação. Normalmente são problemas de contexto, entendimento, alinhamento ou arquitetura."
-
-### Manifesto DTF
-
-Acreditamos que:
-- Código é consequência.
-- Arquitetura é consequência.
-- Qualidade é consequência.
-- Tudo nasce da clareza do contexto.
-- Nenhuma funcionalidade deve ser implementada sem contexto.
-- Nenhuma decisão técnica deve permanecer implícita.
-- Nenhuma IA deve gerar código sem arquitetura.
-- Nenhum projeto deve depender da memória de indivíduos.
-- O conhecimento do sistema deve existir fora das pessoas.
-- O conhecimento deve existir antes do código.
-
----
-
-## 🛠️ Exemplo de Uso
-
-### Iniciando um Projeto Novo
+## 🚀 Começando Rápido
 
 ```bash
-# Criar estrutura básica
-mkdir meu-projeto && cd meu-projeto
-mkdir .dtc src tests
-touch README.md LICENSE
+# Clonar repositório oficial DTF
+git clone https://github.com/LoopKode/DTF-Method.git dtf-concept
 
-# Iniciar documentação no .dtc/
-cd .dtc
-echo "# Contexto - Meu Projeto" > context.md
-echo "# Visão do Projeto" > vision.md
-echo "# Escopo" > scope.md
-echo "# Arquitetura" > architecture.md
+cd dtf-concept/.dtc/examples
+
+# Copiar exemplo de contexto preenchido para seu projeto novo
+cp context-md-exemplo-preenchido.md ../context.md
+
+# Iniciar feature complexa
+cat ../templates/DTR-template-genérico-preenchido.md > .dtc/DTR-feature-upload-avatar-001.md
+vi .dtc/DTR-feature-upload-avatar-001.md  # Editar conforme necessidade!
+
+# Commit inicial
+git add .dtc/context.md .dtc/DTR-feature-upload-avatar-001.md
+git commit -m "feat(.dtc): add context + DTR para feature upload de avatar"
 ```
 
-### Usando um Template
-
-```bash
-# Copiar template DTC
-cp ../templates/DTC-template.md .dtc/context.md
-
-# Preencher com informações do projeto
-vi .dtc/context.md
-```
+> ⚠️ **Importante**: Use `.dtc/examples/` como referência! Copie e edite, não comece do zero!
 
 ---
 
-## 📚 Licença
+## ✅ Checklist de Qualidade
 
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para detalhes.
+Antes de push, verifique:
 
----
-
-## ⭐ Contribua
-
-O DTF é uma metodologia viva, projetada para evoluir:
-
-- **Feedback Prático**: Ajuste baseado em uso real
-- **Ferramentas**: Suporte crescente para automação
-- **Comunidade**: Contribuições e melhorias
-- **Casos de Uso**: Adaptação para diferentes contextos
+- [ ] `.dtc/context.md` está atualizado com decisões arquiteturais
+- [ ] DTRs usam placeholders genéricos (não hardcoded OAuth em features sociais)
+- [ ] Templates disponíveis em `templates/` são genéricos e reutilizáveis
+- [ ] Exemplos preenchidos em `.dtc/examples/` estão disponíveis
+- [ ] ADRs em `.dtc/decisions/` explicam trade-offs com exemplos
 
 ---
 
-> *DTF: Documentação Técnica Funcional guiando o desenvolvimento moderno.*
+## 🛠️ Contribuindo
+
+Este repositório é um **portal da metodologia DTF**, não o código principal. Contribuições são bem-vindas!
+
+### Como contribuir:
+
+1. Fork este repositório
+2. Crie branch de feature (`git checkout -b feature/amelioracao-dtr-template`)
+3. Commit com convenção commits
+4. Abra pull request
+
+**Antes de criar PR:**
+- [ ] Leia [Princípios da Metodologia](foundation/principles.md)
+- [ ] Verifique se sua contribuição alinha ao manifesto ([manifesto.md](foundation/manifesto.md))
+- [ ] Documente suas mudanças no `.dtc/decisions/` (ADR necessário)
+
+---
+
+## 📜 Licença
+
+[MIT License](LICENSE) — Código e documentação sob MIT.
+
+> "Software livre, conhecimento aberto, documentação como primeira classe."
