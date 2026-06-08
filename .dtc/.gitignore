@@ -1,0 +1,7 @@
+# Decision Template Collections - .gitignore
+# Padrão: commitar todos os arquivos markdown (templates + exemplos)
+
+# Builds/artefatos de decisão em desenvolvimento
+!*.build/
+!**/dist/
+!</**/*.{js,json}
