@@ -1,6 +1,6 @@
 # .dtc/ — Decision Template Collections
 
-Coleção de templates, guidelines e exemplos para documentar **Decision Template Architecture** (DTA) durante o desenvolvimento do DTF.
+Coleção de **templates**, **guidelines** e **exemplos** para documentar **Decision Template Architecture** (DTA) durante o desenvolvimento do DTF.
 
 ---
 
@@ -8,20 +8,23 @@ Coleção de templates, guidelines e exemplos para documentar **Decision Templat
 
 ```
 .dtc/
-├── README.md              # Este arquivo — documentação geral
-├── BEST-PRACTICES.md     # Guidelines e melhores práticas de uso
-├── templates/           # Templates vazios para diferentes tipos de decisão
-│   ├── 001-upload-feature-generic.md    # Template genérico para upload features
-│   ├── 002-api-validation-choice.md     # Template específico: validação de API
-│   └── 003-upload-feature.md          # Template específico: upload feature completo
-├── examples/           # Exemplos preenchidos para referência
-│   ├── context-md-exemplo-preenchido.md
-│   ├── DTA-template-exemplo-preenchido.md
-│   └── DTA-template-upload-generico-exemplo-preenchido.md  *(novo)*
-└── decisions/         # Decisões documentadas usando os templates acima
-    ├── ADR-XXX-decricao.md     # (criar conforme necessário)
-    └── templates/             # Templates específicos para decisões
-        └── [00X]-*.md
+├── README.md                    # Este arquivo — documentação geral
+├── BEST-PRACTICES.md           # Guidelines detalhadas de uso
+├── TEMPLATE-INDEX.md           # Índice rápido de todos os templates
+├── decisions/                  #决 decisões documentadas usando templates
+│   └── templates/              # Templates disponíveis para criar ADRs
+│       ├── 001-upload-feature-generic.md     # Upload/download genérico (placeholder)
+│       ├── 002-api-validation-choice.md      # Validação de API choice específica
+│       ├── 003-upload-feature.md           # Upload feature completo e detalhado
+│       ├── 004-dta-generic.md             # Qualquer validação genérica (fallback)
+│       ├── 005-api-route.md              # API route com schemas
+│       ├── 006-database-schema.md        # Schema de banco modificações
+│       └── 007-api-documentation.md      # Documentação de API (OpenAPI/Postman)
+├── examples/                   # Exemplos preenchidos para referência rápida
+│   ├── context-md-exemplo-preenchido.md    # Context MD exemplo completo
+│   ├── DTA-template-upload-generico-exemplo-preenchido.md  # Upload upload exemplo
+│   └── README.md                 # Quick reference do exemplos/
+└── decisions/                  # Decisões documentadas (criar conforme necessário)
 ```
 
 ---
@@ -30,37 +33,28 @@ Coleção de templates, guidelines e exemplos para documentar **Decision Templat
 
 Use arquivos em `.dtc/` quando:
 
-1. **Documentando decisão técnica** → Crie ADR em `decisions/` usando template de `templates/`
-2. **Precisando de referência rápida** → Consulte exemplos em `examples/`
-3. **Criando nova feature complexa** → Use guidelines em `BEST-PRACTICES.md`
+1. **Documentando decisão técnica** → Crie ADR em `decisions/` usando template de `decisions/templates/`
+2. **Precisando de referência rápida** → Consulte exemplos em `examples/` ou [`TEMPLATE-INDEX.md`](./TEMPLATE-INDEX.md)
+3. **Criando nova feature complexa** → Use guidelines em [`BEST-PRACTICES.md`](./BEST-PRACTICES.md)
 
 ---
 
 ## 🚀 Quick Start
 
-### Criando Novo ADR
+### Criando Novo ADR (Rápido)
 
 ```bash
-# 1. Identificar tipo de decisão
-#    - API validation? → Use template 002
-#    - Upload feature? → Use template 003 ou genérico 001
-#    - Outro? → Use genérico (001) e adapte
+# 1. Escolher template baseado no tipo de decisão
+cp decisions/templates/[TEMPLATE].md /c/Users/rhuan/DTF_Concept/.dtc/decisions/ADR-XXX-decision.md
 
-# 2. Copiar template
-cp .dtc/templates/[TEMPLATE].md /c/Users/rhuan/DTF_Concept/.dtc/decisions/ADR-XXX-decision.md
+# 2. Preencher com contexto específico
+vim decisions/ADR-XXX-decision.md
 
-# 3. Preencher com detalhes específicos
-#    - Remova placeholders [CURLASCOLETAS]
-#    - Adicione contexto, decisão, trade-offs
-#    - Atualize status: [Draft] → [Review] → [Approved]
-
-# 4. Review por stakeholder (opcional)
-#    - Verifique checklist de decisão
-#    - Garanta trade-offs compreendidos
-
-# 5. Commit
-git add .dtc/decisions/ADR-XXX-decision.md
+# 3. Commit com mensagem descriptiva
+git add decisions/ADR-XXX-decision.md
 ```
+
+**Quick reference:** Consulte [`TEMPLATE-INDEX.md`](./decisions/templates/TEMPLATE-INDEX.md) para escolher o template apropriado.
 
 ---
 
@@ -68,7 +62,7 @@ git add .dtc/decisions/ADR-XXX-decision.md
 
 Para cada ADR criado:
 
-- [ ] Template apropriado escolhido (ou genérico adaptado)
+- [ ] Template apropriado escolhido (ou genérico adaptado como fallback)
 - [ ] Todas seções preenchidas (sem `[CURLASCOLETAS]` restantes)
 - [ ] Trade-offs documentados claramente
 - [ ] Checklist de decisão assinado
@@ -80,8 +74,8 @@ Para cada ADR criado:
 
 ### Adicionando Novo Template
 1. Identifique gap (qual tipo de decisão não tem template?)
-2. Crie com numeração sequencial (001, 002, 003...)
-3. Atualize `templates/` e `examples/README.md` se necessário
+2. Crie com numeração sequencial (`001`, `002`, `003`...)
+3. Atualize [`TEMPLATE-INDEX.md`](./decisions/templates/TEMPLATE-INDEX.md) listando o novo template
 
 ### Mantendo Exemplos Relevantes
 - Remova exemplos obsoletos de tecnologias deprecated
@@ -92,30 +86,33 @@ Para cada ADR criado:
 
 ## 📊 Diferença: Template vs Exemplo
 
-| Aspecto | Template (`templates/`) | Exemplo (`examples/`) |
-|---------|------------------------|----------------------|
-| **Conteúdo** | Estrutura vazia com placeholders | Dados reais e concretos |
-| **Uso** | Durante processo de decisão | Para referência pós-decisão/onboarding |
-| **Estado** | `[Template]` por padrão | Preenchido/Ativo |
-| **Numeração** | Sequencial (001, 002...) | Descritivo (`api-validation-example.md`) |
+| Aspecto | Template (`decisions/templates/`) | Exemplo (`examples/`) |
+|---------|-----------------------------------|----------------------|
+| **Conteúdo** | Estrutura vazia com placeholders `[CURLASCOLETAS]` | Dados reais e concretos |
+| **Uso** | Durante processo de decisão (esqueleto) | Para referência pós-decisão/onboarding |
+| **Numeração** | Sequencial (`001`, `002`...) | Descritivo (`api-validation-example.md`) |
 
 ---
 
 ## 🚦 Workflow Recomendado
 
 ```
-Identificar necessidade → Escolher template → Preencher ADR → Review → 
-Publicar em decisions/ → (Opcional) Criar exemplo preenchido
+Identificar necessidade → Escolher template (TEMPLATE-INDEX.md) → 
+Preencher ADR → Review → Publicar em decisions/ → 
+(Opcional) Criar exemplo preenchido em examples/
 ```
 
 ---
 
-## 🔗 Links Relacionados
-- [Best Practices](./BEST-PRACTICES.md) — Guidelines detalhadas
-- [Templates](./templates/) — Escolha template apropriado
-- [Examples](./examples/) — Referências rápidas
+## 🔗 Links Internos
+
+| Arquivo | Descrição |
+|---------|-----------|
+| [`BEST-PRACTICES.md`](./BEST-PRACTICES.md) | Guidelines detalhadas de uso e melhores práticas |
+| [`TEMPLATE-INDEX.md`](./decisions/templates/TEMPLATE-INDEX.md) | Índice rápido de todos os templates disponíveis |
+| [`examples/README.md`](./examples/README.md) | Quick reference para exemplos preenchidos |
 
 ---
 
 **Última atualização:** 2026-06-XX  
-**Versão:** 1.0.0
+**Versão:** 1.0.1 (Melhoria v2.0 com templates categorizados)
