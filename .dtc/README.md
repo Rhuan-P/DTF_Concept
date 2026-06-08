@@ -1,172 +1,121 @@
-# Sobre a Pasta `.dtc/`
+# .dtc/ — Decision Template Collections
 
-## O que é `.dtc/`?
-
-**`.dtc/` (Documentação Técnica de Contexto) é onde você guarda TODO o contexto específico deste PROJETO.**
-
-É diferente da documentação do DTF em `foundation/` e `dtf/`, que explicam a metodologia.
+Coleção de templates, guidelines e exemplos para documentar **Decision Template Architecture** (DTA) durante o desenvolvimento do DTF.
 
 ---
 
-## .dtc/ vs foundation/dtf/
+## 📚 Estrutura
 
-| | `.dtc/` (projeto) | `foundation/` (metodologia) | `dtf/` (oficial) |
-|--:|:--|:--|:--|
-| **Escopo** | Específico deste projeto | Universal para todos os projetos | Especificação da metodologia |
-| **Conteúdo** | Contexto do PROJETO | Fundamentação conceitual | Documentação oficial DTF |
-| **Quando criar** | Cada projeto novo | Uma vez (repositório raiz) | Já existe na estrutura |
-| **Atualizações** | Sempre que contexto muda | Raramente (padrões) | Apenas evoluções da metodologia |
+```
+.dtc/
+├── README.md              # Este arquivo — documentação geral
+├── BEST-PRACTICES.md     # Guidelines e melhores práticas de uso
+├── templates/           # Templates vazios para diferentes tipos de decisão
+│   ├── 001-upload-feature-generic.md    # Template genérico para upload features
+│   ├── 002-api-validation-choice.md     # Template específico: validação de API
+│   └── 003-upload-feature.md          # Template específico: upload feature completo
+├── examples/           # Exemplos preenchidos para referência
+│   ├── context-md-exemplo-preenchido.md
+│   ├── DTA-template-exemplo-preenchido.md
+│   └── DTA-template-upload-generico-exemplo-preenchido.md  *(novo)*
+└── decisions/         # Decisões documentadas usando os templates acima
+    ├── ADR-XXX-decricao.md     # (criar conforme necessário)
+    └── templates/             # Templates específicos para decisões
+        └── [00X]-*.md
+```
 
 ---
 
-## O que Fica em `.dtc/`
+## 🎯 Quando Usar
 
-### Arquivos Principais
+Use arquivos em `.dtc/` quando:
 
-```
-.dt c/
-├── context.md      # ⭐ Contexto global do projeto
-├── vision.md       # Visão e objetivos do projeto
-├── scope.md        # Escopo e limites
-├── architecture.md # Arquitetura do sistema
-├── principles.md   # Princípios específicos do projeto
-├── glossary.md     # Glossário de termos do projeto
-├── decisions/      # ADRs (Architecture Decision Records)
-│   ├── 001-integracao-http-axios.md
-│   └── 002-database-postgresql.md
-├── templates/      # Templates específicos do projeto
-└── standards/      # Padrões do projeto
-```
-
-### Estrutura Detalhada
-
-#### `.dtc/context.md` — O Coração
-
-```markdown
-# Contexto - [Nome do Projeto]
-
-## Visão Geral
-- **Problema**: O que este sistema resolve?
-- **Stakeholders**: Quem usa e por quê?
-- **Contexto de negócio**: Domínio do problema
-
-## Arquitetura
-- Tecnologias principais
-- Padrões arquiteturais escolhidos
-- Integrações externas
-
-## Stack Tecnológico
-- Linguagens e frameworks
-- Banco de dados
-- Infraestrutura/cloud
-- Ferramentas CI/CD
-
-## Convenções
-- Convenções de código
-- Estrutura de diretórios
-- Git conventions
-```
-
-#### `.dtc/architecture.md` — O Mapa
-
-Descreve componentes, interfaces, fluxos de dados. Inclui diagramas e ADRs importantes.
-
-#### `.dtc/decisions/*.md` — Decisões Registradas
-
-Cada decisão técnica importante:
-- Contexto da decisão
-- Alternativas consideradas
-- Decisão tomada
-- Justificativa
+1. **Documentando decisão técnica** → Crie ADR em `decisions/` usando template de `templates/`
+2. **Precisando de referência rápida** → Consulte exemplos em `examples/`
+3. **Criando nova feature complexa** → Use guidelines em `BEST-PRACTICES.md`
 
 ---
 
-## Como Criar `.dtc/` em um Novo Projeto
+## 🚀 Quick Start
 
-### Passo a Passo
+### Criando Novo ADR
 
 ```bash
-# 1. Inicializar estrutura
-cd seu-novo-projeto
-mkdir .dtc
+# 1. Identificar tipo de decisão
+#    - API validation? → Use template 002
+#    - Upload feature? → Use template 003 ou genérico 001
+#    - Outro? → Use genérico (001) e adapte
 
-# 2. Usar template DTC para começar
-cp ../templates/DTC-template.md .dtc/context.md
+# 2. Copiar template
+cp .dtc/templates/[TEMPLATE].md /c/Users/rhuan/DTF_Concept/.dtc/decisions/ADR-XXX-decision.md
 
-# 3. Preencher com informações do projeto
-vi .dtc/context.md  # Editar conforme necessário
-```
+# 3. Preencher com detalhes específicos
+#    - Remova placeholders [CURLASCOLETAS]
+#    - Adicione contexto, decisão, trade-offs
+#    - Atualize status: [Draft] → [Review] → [Approved]
 
-### Alternativa: Criar Manualmente
+# 4. Review por stakeholder (opcional)
+#    - Verifique checklist de decisão
+#    - Garanta trade-offs compreendidos
 
-```bash
-cd seu-novo-projeto
-mkdir .dtc context decisions templates standards
-
-echo "# Contexto - [Nome do Projeto]" > .dtc/context.md
-echo "" >> .dtc/context.md
-echo "## Visão Geral" >> .dtc/context.md
-# ... preencher com informações
-```
-
----
-
-## Quando Atualizar `.dtc/`
-
-### Sempre que:
-
-- ✅ **Nova tecnologia escolhida** → Atualize `context.md` stack section
-- ✅ **Mudança de arquitetura significativa** → Crie novo ADR em `decisions/`
-- ✅ **Novo bounded context/módulo** → Documente em `architecture.md`
-- ✅ **Padrões importantes definidos** → Adicione a `standards/`
-- ✅ **Requisitos fundamentais mudam** → Revise `context.md`, `vision.md`, `scope.md`
-
-### Não precisa atualizar:
-
-- ❌ Pequenos ajustes de feature (use DTR específico)
-- ❌ Mudanças de implementação dentro da arquitetura
-- ❌ Atualizações de versão do framework (a menos que mude comportamento)
-
----
-
-## O Padrão do Mercado
-
-Repositórios profissionais bem estruturados usam `.dtc/` ou `docs/architecture/`:
-
-| Projeto | Estrutura equivalente |
-|---------|----------------------|
-| React Router docs | `architecture.md` |
-| Node.js best practices | `principles.md`, `standards/` |
-| Kubernetes patterns | `glossary.md`, `architecture.md` |
-| ADR pattern | `.dtc/decisions/` |
-
-**O DTF formaliza isso em um diretório único: `.dtc/`.**
-
----
-
-## Backwards Compatibility
-
-Se você já tem documentação espalhada:
-
-```bash
-# Migrar para .dtc/:
-cp docs/architecture.md .dtc/architecture.md
-cp docs/glossary.md .dtc/glossary.md
-mv decisions/ .dtc/decisions/ 2>/dev/null || mkdir -p .dtc/decisions/
-
-# Atualizar links:
-sed -i 's|docs/\.md|.dtc/context.md|g' README.md
+# 5. Commit
+git add .dtc/decisions/ADR-XXX-decision.md
 ```
 
 ---
 
-## Resumo
+## 📋 Checklist de Qualidade
 
-- **`.dtc/` é o coração do projeto** — guarda todo contexto específico
-- **Crie em todos os projetos novos** — padrão do mercado
-- **Atualize conforme mudanças significativas** — não cada detalhe
-- **Use templates** para começar rápido e consistente
+Para cada ADR criado:
+
+- [ ] Template apropriado escolhido (ou genérico adaptado)
+- [ ] Todas seções preenchidas (sem `[CURLASCOLETAS]` restantes)
+- [ ] Trade-offs documentados claramente
+- [ ] Checklist de decisão assinado
+- [ ] Status atualizado ([Draft] → [Review] → [Approved])
 
 ---
 
-> **"Sem .dtc/, você depende da memória humana. Com .dtc/, o conhecimento sobrevive."**
+## 🧹 Manutenção
+
+### Adicionando Novo Template
+1. Identifique gap (qual tipo de decisão não tem template?)
+2. Crie com numeração sequencial (001, 002, 003...)
+3. Atualize `templates/` e `examples/README.md` se necessário
+
+### Mantendo Exemplos Relevantes
+- Remova exemplos obsoletos de tecnologias deprecated
+- Atualize exemplos com contextos atuais do projeto
+- Mantenha máximo 10 exemplos mais relevantes (evite bloat)
+
+---
+
+## 📊 Diferença: Template vs Exemplo
+
+| Aspecto | Template (`templates/`) | Exemplo (`examples/`) |
+|---------|------------------------|----------------------|
+| **Conteúdo** | Estrutura vazia com placeholders | Dados reais e concretos |
+| **Uso** | Durante processo de decisão | Para referência pós-decisão/onboarding |
+| **Estado** | `[Template]` por padrão | Preenchido/Ativo |
+| **Numeração** | Sequencial (001, 002...) | Descritivo (`api-validation-example.md`) |
+
+---
+
+## 🚦 Workflow Recomendado
+
+```
+Identificar necessidade → Escolher template → Preencher ADR → Review → 
+Publicar em decisions/ → (Opcional) Criar exemplo preenchido
+```
+
+---
+
+## 🔗 Links Relacionados
+- [Best Practices](./BEST-PRACTICES.md) — Guidelines detalhadas
+- [Templates](./templates/) — Escolha template apropriado
+- [Examples](./examples/) — Referências rápidas
+
+---
+
+**Última atualização:** 2026-06-XX  
+**Versão:** 1.0.0
