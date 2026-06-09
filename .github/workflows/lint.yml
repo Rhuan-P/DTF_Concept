@@ -17,6 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install markdownlint
-        run: npm install -g markdownlint
+        run: npm install markdownlint
       - name: Lint Markdown files
-        run: markdownlint "**/*.md"
+        run: npx markdownlint "**/*.md"
