@@ -1,28 +1,33 @@
-name: DTF CI Pipeline
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Markdown Lint
-        uses: davidanutz/markdownlint@v1
 
-  schema-check:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
-        run: pip install requests
-      - name: Run Schema Validation
-        run: python3 scripts/validate_dtf_schema.py
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          pip install markdownlint
+
+      - name: Run Markdown Linting
+        run: markdownlint .
+
+      - name: Run schema validation
+        run: python scripts/validate_dtf_schema.py
