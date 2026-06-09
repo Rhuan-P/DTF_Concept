@@ -6,7 +6,9 @@ Uma metodologia de engenharia orientada por contexto para desenvolvimento de sof
 
 ## 📖 O que é DTF?
 
-O **DTF (Documentação Técnica Funcional)** é uma camada de engenharia que transforma conhecimento implícito em conhecimento explícito antes da implementação.
+O **DTF (Documentação Técnica Funcional)** é uma camada de engenharia que
+transforma conhecimento implícito em conhecimento explícito antes da
+implementação.
 
 > "Nenhuma implementação deve existir sem contexto, requisito e validação definidos."
 
@@ -17,7 +19,7 @@ O **DTF (Documentação Técnica Funcional)** é uma camada de engenharia que tr
 Grande parte dos problemas em projetos de software **não surge durante a implementação**. Surge **antes**:
 
 - ❌ Requisitos implícitos
-- ❌ Arquitetura não documentada  
+- ❌ Arquitetura não documentada
 - ❌ Decisões contraditórias
 - ❌ Perda de contexto
 - ❌ Código gerado sem alinhamento arquitetural
@@ -56,23 +58,26 @@ O DTF parte do princípio que **tudo nasce da clareza do contexto**.
 ```
 
 | Documento | Pergunta Principal | Entregável Principal |
-|-----------|-------------------|---------------------|
-| **DTC** (Contexto) | O QUE está sendo construído? | .dtc/context.md + decisões arquiteturais |
+| ----------- | ------------------- | --------------------- |
+| **DTC** (Contexto) | O QUE está sendo construído? | .dtc/context.md + decisões |
 | **DTR** (Requisito) | COMO será implementado? | DTRs para features complexas |
 | **DTI** (Implementação) | CÓDIGO finalizado | Código + exemplos de uso |
 | **DTA** (Aceitação) | FUNCIONA conforme esperado? | Testes + checklist de validação |
 
-> 📌 **Importante**: DTC é único por projeto. DTR/DTI/DTA são criados conforme features evoluem!
+> 📌 **Importante**: DTC é único por projeto. DTR/DTI/DTA são criados
+conforme features evoluem!
 
 ---
 
 ## 🛠️ Ferramentas
 
-### Para humanos:
+### Para humanos
+
 - GitHub Desktop (interface gráfica para Git)
 - VSCodium + extensão Prettier/ESLint
 
-### Para IA:
+### Para IA
+
 - Prompt com contexto explícito via `.dtc/`
 - ADRs como referência de decisões passadas
 
@@ -82,7 +87,7 @@ O DTF parte do princípio que **tudo nasce da clareza do contexto**.
 
 ```bash
 [Project Root]/
-├── .dtc/                           # ⭐ DOCUMENTAÇÃO TÉCNICA DE CONTEXTO (projeto específico)
+├── .dtc/                           # ⭐ DOCUMENTAÇÃO TÉCNICA DE CONTEXTO
 │   ├── context.md                 # Fonte da verdade arquitetural + contexto geral
 │   ├── vision.md                  # Visão e objetivos do projeto
 │   ├── scope.md                   # O que está dentro/fora do escopo
@@ -97,7 +102,7 @@ O DTF parte do princípio que **tudo nasce da clareza do contexto**.
 │   └── dta-template-exemplo-preenchido.md # DTA COMPLETO PREENCHIDO
 ├── templates/                     # Templates oficiais
 │   ├── DTC-template.md            # Template vazio para novos projetos
-│   ├── DTR-template-genérico-preenchido.md  # ⭐ TEMPLATE GENÉRICO (não hardcoded)
+│   ├── DTR-template-genérico-preenchido.md  # ⭐ TEMPLATE GENÉRICO
 │   ├── DTI-template.md            # Template de implementação
 │   ├── DTA-template.md            # Template de aceitação
 │   └── ADR-template.md            # Template de decisão arquitetural
@@ -107,21 +112,22 @@ O DTF parte do princípio que **tudo nasce da clareza do contexto**.
 ├── .gitignore                     # Padrão DTF
 ├── LICENSE                        # MIT License
 └── README.md                      # Este arquivo (portal)
-
 ```
 
 ### 📍 Onde é o `.dtc/`?
 
-**`.dtc/` (Documentação Técnica de Contexto) é onde você guarda TUDO sobre seu projeto:**
+**`.dtc/` (Documentação Técnica de Contexto) é onde você guarda
+TUDO sobre seu projeto:**
 
 - ✅ Arquitetura específica deste projeto
-- ✅ Visão deste projeto  
+- ✅ Visão deste projeto
 - ✅ Escopo deste projeto
 - ✅ Princípios deste projeto
 - ✅ Decisões tomadas neste projeto
 - ✅ Glossário específico deste projeto
 
-**`.dtc/` é ESPECÍFICO DO PROJETO.** Não contém fundamentação da metodologia - isso fica na raiz do repositório DTF.
+**`.dtc/` é ESPECÍFICO DO PROJETO.** Não contém fundamentação da
+metodologia - isso fica na raiz do repositório DTF.
 
 ### 📋 Como Usar `.dtc/`
 
@@ -174,11 +180,9 @@ Documentação técnica oficial e especificação completa:
   - [Princípios Fundamentais](dtf/context/principles.md)
   - [Arquitetura da Metodologia](dtf/context/architecture.md)
   - [Glossário](dtf/context/glossary.md)
-
 - **[dtf/methodology/](dtf/methodology/)** — Especificação completa
   - [Metodologia DTF](dtf/methodology/dtf.md)
   - [Fluxo de Trabalho](dtf/methodology/workflow.md)
-
 - **[dtf/standards/](dtf/standards/)** — Padrões oficiais
   - [Padrões de Documentação](dtf/standards/documentation.md)
   - [Estrutura de Repositórios](dtf/standards/repository.md)
@@ -262,6 +266,7 @@ Este repositório é um **portal da metodologia DTF**, não o código principal.
 4. Abra pull request
 
 **Antes de criar PR:**
+
 - [ ] Leia [Princípios da Metodologia](foundation/principles.md)
 - [ ] Verifique se sua contribuição alinha ao manifesto ([manifesto.md](foundation/manifesto.md))
 - [ ] Documente suas mudanças no `.dtc/decisions/` (ADR necessário)
