@@ -298,28 +298,33 @@ git commit -m "docs(.dtc): add DTI and DTA for user management feature"
 
 ## Fluxo para Grandes Refatorações
 
-**Quando mudar arquitetura significativamente**:
+
+## Fluxo para Projetos Legados (Retrofitting)
+**Quando**: Ao adotar a metodologia DTF em um projeto já em produção.
 
 ```bash
-# Passo 1: Documentar decisão de refatoração em ADR
-cp ../templates/ADR-template.md .dtc/decisions/003-architecture-refactor.md
-vi .dtc/decisions/003-architecture-refactor.md
+# Passo 1: Auditoria de Contexto
+# Identifique a stack, convenções atuais e dependências.
+# Crie o .dtc/context.md baseado no estado atual do sistema.
 
-# Passo 2: Atualizar .dtc/context.md com nova arquitetura
-vi .dtc/context.md  # Seção Arquitetura atualizada
+# Passo 2: Registro de Decisões Críticas
+# Identifique as 3-5 decisões arquiteturais mais importantes que não estão documentadas.
+# Crie ADRs para elas em .dtc/decisions/ (ex: 001-database, 002-auth).
 
-# Commit ADR e context.md
-git add .dtc/decisions/*.md .dtc/context.md
-git commit -m "docs(.dtc): update architecture for refactoring project to microservices"
-
-# Passo 3: Criar DTRs para features novas com nova arquitetura
-mkdir .dtc/tasks/DTR-feature-auth-microservice-001
-cp ../templates/DTR-template.md .dtc/tasks/DTR-feature-auth-microservice-001.md
-# ... editar conforme nova arquitetura microservices ...
-
-git add .dtc/tasks/DTR-feature-auth-microservice-001.md
-git commit -m "docs(.dtc): add DTR for auth microservice (refactored architecture)"
+# Passo 3: Novo Ciclo
+# A partir daqui, toda nova feature ou mudança significativa deve seguir o fluxo padrão.
 ```
+
+---
+
+## Níveis de Complexidade (S, M, L)
+Para evitar sobrecarga em tarefas triviais, utilizamos níveis de complexidade:
+
+| Nível | Tipo de Tarefa | Fluxo Exigido |
+|-------|----------------|---------------|
+| **S (Small)** | Mudanças de UI, textos, correções simples de bugs. | Contexto $\rightarrow$ DTR $\rightarrow$ Código |
+| **M (Medium)** | Novas features de negócio, integrações de API simples. | Contexto $\rightarrow$ DTR $\rightarrow$ DTI $\rightarrow$ DTA $\rightarrow$ Código |
+| **L (Large)** | Mudanças arquiteturais, novos serviços, migrações de DB. | Contexto $\rightarrow$ ADR $\rightarrow$ DTR $\rightarrow$ DTI $\rightarrow$ DTA $\rightarrow$ Código |
 
 ---
 
