@@ -11,7 +11,7 @@ Este documento descreve como utilizar ferramentas de IA generativa de forma efic
 Ferramentas de IA são poderosas quando alimentadas com contexto estruturado. O DTF fornece esse contexto através de:
 
 - `.dtc/context.md` — Visão geral do projeto
-- `.dtc/architecture.md` — Arquitetura do sistema  
+- `.dtc/architecture.md` — Arquitetura detalhada
 - `.dtc/decisions/*.md` — Decisões arquiteturais registradas
 
 **Sem esses documentos, a IA gera código genérico.**
@@ -33,10 +33,11 @@ Antes de pedir geração de código:
 **Errado:** *"Crie uma API REST para login"*
 **Correto:** 
 ```markdown
-Contexto: E-commerce de moda (veja .dtc/context.md)
-Stack: Python/FastAPI, PostgreSQL, JWT authentication
-Arquitetura: Domain-driven design com bounded contexts
-Requisito: Implementar endpoint POST /auth/login conforme DTR-feature-001
+Contexto do Projeto (.dtc/context.md)
+- Domínio: E-commerce de moda feminina
+- Stack: Python 3.11+, FastAPI v0.109, PostgreSQL, JWT authentication
+- Arquitetura: Domain-driven design com bounded contexts
+- Requisitos: Implementar endpoint POST /auth/login conforme DTR-feature-001
 ```
 
 ---
@@ -70,60 +71,9 @@ Quando IA gerar código, verifique:
 
 ---
 
-### 4. Itere com Contexto Atualizado
-
-Após primeira implementação:
-
-```
-1. Revisão de código → Feedback para IA
-2. Atualize .dtc/context.md se necessário
-3. Novos requisitos → Novo DTR no .dtc/tasks/
-4. Continue o ciclo
-```
-
----
-
-## Prompts Efetivos com DTF
-
-### Ruim (Sem Contexto)
-
-```
-"Crie uma classe de usuário"
-"Crie uma API para produtos"
-"Crie testes para login"
-```
-
-**Resultado:** Código genérico, não alinhado ao projeto.
-
----
-
-### Bom (Com Contexto DTF)
-
-```markdown
-# Contexto do Projeto (.dtc/context.md)
-- Domínio: E-commerce de moda feminina
-- Stack: Python 3.11+, FastAPI v0.109, SQLAlchemy 2.0, PostgreSQL
-- Autenticação: JWT com refresh tokens, OAuth2 password flow
-- Principais entidades: User, Product, Order, CartItem, Review
-- DB Schema: /src/database/schemas.py
-- API Spec: Swagger/OpenAPI conforme .dtc/context.md seção 4
-
-# Tarefa
-Implementar classe User conforme arquitetura em .dtc/architecture.md
-Considerações do DTR-user-feature-001:
-- Suporte a múltiplos emails por usuário
-- Campos required: id, email, password_hash, created_at
-- Métodos: create(), authenticate(), refresh_token()
-```
-
-**Resultado:** Código alinhado ao projeto.
-
----
-
 ## Melhores Práticas com IA
 
 ### ✅ FAÇA
-
 - Leia `.dtc/context.md` antes de usar IA para um novo feature
 - Use templates como ponto de partida
 - Peça para IA revisar código contra `.dtc/architecture.md`
@@ -131,91 +81,10 @@ Considerações do DTR-user-feature-001:
 - Atualize `.dtc/context.md` após grandes mudanças
 
 ### ❌ NÃO FAÇA
-
 - Dependente 100% da IA sem leitura de documentação
 - Usar prompts vagos sem contexto do projeto
 - Aceitar código gerado sem validar contra arquitetura
 - Deixar IA "alucinar" APIs externas sem verificar contra `.dtc/context.md`
-
----
-
-## Exemplo de Sessão com IA
-
-### Setup
-
-```bash
-# Ler o projeto antes de interagir com IA
-cat .dtc/context.md
-cat .dtc/architecture.md
-ls .dtc/decisions/  # Ver decisões existentes
-```
-
-### Prompt para IA
-
-```
-Sou desenvolvedor iniciando nova feature no projeto DTF.
-
-Contexto do sistema (de .dtc/context.md):
-[RESUMO DE context.md]
-
-Arquitetura relevante (de .dtc/architecture.md):
-- Componente X: faz Y
-- Interface entre X e Z: usa protocolo ABC
-
-Decisões anteriores (de .dtc/decisions/):
-- Decisão 1: Escolhemos FastAPI porque...
-- Decisão 2: Padrão de autenticação é JWT porque...
-
-Requisito da nova feature (do novo DTR):
-[RESUMO do DTR]
-
-Peço ajuda para:
-1. Sugerir estrutura de código para esta feature
-2. Verificar se alinha com a arquitetura existente
-3. Sugerir testes unitários baseados em .dtc/context.md
-
-Referências obrigatórias:
-- DTF guidelines: ../templates/DTC-template.md
-- Project architecture: ../.dtc/architecture.md
-```
-
----
-
-## Ferramentas Recomendadas
-
-### Para Documentação Técnica
-
-1. **GitHub Copilot / Cursor** — Autocompletar baseado em context `.dtc/`
-2. **Codeium / Amazon Q** — IA com suporte a documentação local
-3. **Custom LLM** — Fine-tuned sobre templates DTF e projetos anteriores
-
-### Para Revisão
-
-1. **Commitizen / Commitlint** — Padronizar commits conforme `.dtc/context.md`
-2. **ESLint/Prettier + AI suggestions** — Code quality com IA
-3. **Test generation tools** — Gerar testes baseados em DTA
-
----
-
-## Limitações e Cuidados
-
-### O que a IA NÃO substitui
-
-- ✅ **IA não substitui**: Leitura de `.dtc/context.md`
-- ✅ **IA não substitui**: Entendimento da arquitetura
-- ✅ **IA não substitui**: Decisão técnica final (humano decide)
-- ✅ **IA não substitui**: Contexto de negócio (só humanos têm)
-
-### Quando IA falha sem DTF
-
-Sem `.dtc/context.md`:
-
-- Alucina APIs externas inexistentes
-- Ignora padrões do projeto
-- Replica código legado com bugs
-- Esquece decisões arquiteturais importantes
-
-**DTC é essencial para que IA não falhe.**
 
 ---
 
@@ -230,4 +99,7 @@ O DTF transforma a relação com IA generativa:
 
 ---
 
-> *"Documente primeiro, peça ajuda depois."*
+## Contexto e Referências Técnicas
+
+- **DTC (Design Thinking Context):** O "cérebro" do projeto. Contém a visão geral, stack tecnológica, convenções, regras de negócio e estado do sistema. É a fonte de verdade para a IA e para os desenvolvedores.
+- **ADRs (Architecture Decision Records):** Registros permanentes de decisões arquiteturais. Devem ser consultados para entender o 'porquê' das decisões passadas e garantir consistência técnica no futuro.

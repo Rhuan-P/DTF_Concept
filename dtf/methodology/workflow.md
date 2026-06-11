@@ -4,7 +4,7 @@ Este documento descreve o fluxo de trabalho principal para adoção da metodolog
 
 ---
 
-## Visão Geral do Fluxo Principal
+## Visão Geral do Fluxo Principal (v1.0.0)
 
 O fluxo DTF é projetado para ser iterativo e incremental, não oneroso:
 
@@ -39,70 +39,52 @@ Problema → Contexto → Requisito → Aceitação → Implementação → Test
 
 ---
 
-### 2. Criar DTR (`.dtc/tasks/DTR-feature-X-001.md`)
+### 2. Criar DTR (Detailed Task Request) (`.dtc/tasks/DTR-feature-X-001.md`)
 
-**Quando**: Feature nova ou modificação significativa no escopo
+**Quando**: Feature nova ou modificação significativa no escopo. O DTR deve ser um pedido de tarefa detalhado e formatado.
 
 **Checklist DTR**:
 ```markdown
-✅ Problema/funcionalidade claramente descrita
-✅ Requisitos funcionais específicos e mensuráveis
-✅ Casos de uso bem definidos
-✅ Restrições e dependências documentadas
-✅ Critérios de sucesso estabelecidos
-✅ Referencia `.dtc/context.md` para contexto arquitetural
-```
-
-**Exemplo de workflow**:
-```bash
-# Criar diretório para feature nova
-mkdir .dtc/tasks/DTR-feature-payment-gateway-001
-
-# Copiar template DTR oficial
-cp ../templates/DTR-template.md .dtc/tasks/DTR-feature-payment-gateway-001.md
-
-# Editar com requisitos específicos da feature
-vi .dtc/tasks/DTR-feature-payment-gateway-001.md  # Preencher:
-# - O que resolve: "Pagamentos via Stripe, PayPal"
-# - Requisitos funcionais:
-#   - RF-001: Process payment through Stripe
-#   - RF-002: Handle webhook from payment provider
+✅ Problema Proposto: Descrição clara do "o quê", "por que" e "como acontece".
+✅ Detalhamento da Solicitação: Requisitos funcionais específicos e mensuráveis (nada de pedidos rasos).
+✅ Lógicas e Regras: Descrição detalhada das regras de negócio, exceções e comportamentos esperados.
+✅ Critérios de Sucesso (Negócio): O que o requerente espera ver funcionando.
+✅ Referência ao Contexto: Deve apontar para o `.dtc/context.md` para contexto arquitetural.
 ```
 
 ---
 
-### 3. Definir DTA (`.dtc/tasks/DTA-feature-X-001.md`)
+### 3. Definir DTA (Design Task Acceptance) (`.dtc/tasks/DTA-feature-X-001.md`)
 
-**Quando**: Junto com DTI, antes de completar feature
+**Quando**: Junto com DTI, antes de completar feature. É o local onde o Cliente e o Dev entram em acordo sobre a validação.
 
 **Checklist DTA**:
 ```markdown
-✅ Critérios de aceitação objetivos e mensuráveis
-✅ Testes automatizados especificados
-✅ Performance metrics definidas
-✅ Checklist de qualidade específico para feature
+✅ Critérios de Aceitação Objetivos: Como o requerente validará o sucesso (visão não técnica).
+✅ Critérios de Validação Técnicos: Quais testes (unitários, integrados, E2E) devem passar (visão técnica).
+✅ Resultado Esperado: Descrição clara do estado final desejado.
+✅ Acordo de Validação: Assinatura ou validação mútua entre Requerente e Desenvolvedor.
 ```
 
 ---
 
-### 4. Elaborar DTI (`.dtc/tasks/DTI-feature-X-001.md`)
+### 4. Elaborar DTI (Design Technical Implementation) (`.dtc/tasks/DTI-feature-X-001.md`)
 
-**Quando**: Após aprovação do DTR, antes da implementação
+**Quando**: Após aprovação do DTR, antes da implementação. É a análise técnica do desenvolvedor.
 
 **Checklist DTI**:
 ```markdown
-✅ Abordagem técnica detalhada e justificada
-✅ Estrutura de código especificada
-✅ Algoritmos/lógica principais descritos
-✅ Integrações documentadas
-✅ Considerações de performance incluídas
+✅ Análise de Contexto: Como essa tarefa se conecta ao DTC atual.
+✅ Impacto em ADRs: Quais decisões arquiteturais foram afetadas ou precisam ser criadas.
+✅ Plano de Implementação: Descrição técnica detalhada do "como" (nuances, estrutura de dados, chamadas de API, etc.).
+✅ Riscos Técnicos: Identificação de possíveis gargalos ou riscos de performance/segurança.
 ```
 
 ---
 
 ### 5. Implementar (Codar)
 
-**Quando**: Após aprovação do DTI, com checklist DTA em mente
+**Quando**: Após aprovação do DTI, com checklist DTA em mente.
 
 **Checklist implementação**:
 ```markdown
@@ -116,7 +98,7 @@ vi .dtc/tasks/DTR-feature-payment-gateway-001.md  # Preencher:
 
 ### 6. Executar Testes
 
-**Quando**: Após implementar feature nova
+**Quando**: Após implementar feature nova.
 
 **Fluxo de teste**:
 ```bash
@@ -134,17 +116,14 @@ pytest tests/e2e/test_feature_e2e.py
 
 ### 7. Validar Critérios de Aceitação
 
-**Quando**: Após implementar e rodar testes
+**Quando**: Após implementar e rodar testes.
 
 **Checklist validação DTA**:
 ```markdown
-✅ RF-001: [x] Autenticação OAuth2 com Google funciona
-✅ RF-002: [x] Account linking works corretamente
+✅ RF-001: [x] Critério de negócio 1 validado
+✅ RF-002: [x] Critério de negócio 2 validado
 ✅ NFR-001: [x] Performance p95 < 500ms
 ✅ AC-001: [x] Critérios de aceitação do DTA passados
-
-# Run acceptance tests:
-pytest --acceptance-tests tests/acceptance/test_oauth2_auth.py
 ```
 
 ---
@@ -164,237 +143,3 @@ pytest --acceptance-tests tests/acceptance/test_oauth2_auth.py
 ✅ **Contexto explícito**: `.dtc/context.md` define stack tecnológico, convenções  
 ✅ **Requisito específico**: DTR-feature-X-001.md especifica o quê será implementado  
 ✅ **Validação pré-definida**: DTA feature-X-001.md lista critérios de aceitação antes de codar
-
----
-
-## Fluxo para Projeto Novo (Do Zero ao Primeiro Commit)
-
-```bash
-# Passo 1: Inicializar repositório
-git init
-git add .
-git commit -m "feat(.dtc): initial project structure"
-
-# Passo 2: Criar .dtc/context.md com template
-cp ../templates/DTC-template.md .dtc/context.md
-vi .dtc/context.md  # Preencher:
-#   - Stack: Python 3.11+, FastAPI, PostgreSQL
-#   - Convenções: Black + ruff, Git Conventional Commits
-
-# Passo 3: Adicionar .gitignore se não existir
-echo ".venv/" > .gitignore
-echo "__pycache__/" >> .gitignore
-
-# Commit inicial
-git add .dtc/context.md .gitignore
-git commit -m "feat(.dtc): add context documentation for Python/FastAPI project"
-
-# Passo 4: Criar entry point
-touch src/main.py
-echo "from fastapi import FastAPI\napp = FastAPI()" > src/main.py
-
-# Commit código inicial
-git add src/main.py
-git commit -m "feat(src): initial FastAPI app"
-
-# Projeto básico DTF pronto para receber primeira feature! 🎉
-```
-
----
-
-## Fluxo para Feature Nova (Incremental)
-
-```bash
-# Passo 1: Criar diretório DTR para nova feature
-mkdir .dtc/tasks/DTR-feature-auth-001
-
-# Passo 2: Copiar template DTR
-cp ../templates/DTR-template.md .dtc/tasks/DTR-feature-auth-001.md
-
-# Passo 3: Editar DTR com requisitos específicos da feature
-vi .dtc/tasks/DTR-feature-auth-001.md  # Preencher:
-#   - Título: "DTR-feature-auth-001 — Sistema de Comentários em Posts"
-#   - Visão geral: "Usuários podem comentar posts do blog"
-#   - Requisitos funcionais (RF-001 a RF-005)
-#   - Requisitos não-funcionais (NFR-001, NFR-002)
-
-# Passo 4: Revisar DTR com equipe (se tiver)
-# Review checklist:
-# [ ] Requisitos claros e mensuráveis?
-# [ ] Casos de uso bem descritos?
-# [ ] Critérios de sucesso definidos?
-
-# Commit documentação antes de codar!
-git add .dtc/tasks/DTR-feature-auth-001.md
-git commit -m "docs(.dtc): add DTR for blog comments feature (PR review pending)"
-
-# Passo 5: Elaborar DTI após aprovação do DTR
-cp ../templates/DTI-template.md .dtc/tasks/DTI-feature-auth-001.md
-vi .dtc/tasks/DTI-feature-auth-001.md  # Especificar implementação técnica
-
-# Commit DTI aprovado
-git add .dtc/tasks/DTI-feature-auth-001.md
-git commit -m "docs(.dtc): add DTI for blog comments feature (approved)"
-
-# Passo 6: Criar DTA junto com DTI
-cp ../templates/DTA-template.md .dtc/tasks/DTA-feature-auth-001.md
-vi .dtc/tasks/DTA-feature-auth-001.md  # Checklist de aceitação específico
-
-# Commit DTA definido
-git add .dtc/tasks/DTA-feature-auth-001.md
-git commit -m "docs(.dtc): add DTA for blog comments feature"
-
-# Passo 7: Implementar código seguindo DTI
-mkdir -p src/comments/{models, routes, schemas, service}
-touch src/comments/__init__.py src/comments/models.py src/comments/routes.py
-# ... codar conforme especificação do DTI ...
-
-git add src/comments/
-git commit -m "feat(src): implement blog comments feature per DTI-feature-auth-001"
-
-# Passo 8: Validar com DTA (testes)
-pytest --acceptance-tests tests/acceptance/test_comments_feature.py
-# ou rodar manualmente testes aceitação
-
-# Commit após validação completa
-git add tests/acceptance/
-git commit -m "tests(.dtc): add acceptance tests for comments feature"
-
-# Feature completa! 🎉
-```
-
----
-
-## Fluxo para Feature Existentes (Manutenção/Evolução)
-
-**Quando adicionar feature a projeto existente**:
-
-```bash
-# 1. Verificar .dtc/context.md atualizado com stack tecnológico?
-cat .dtc/context.md  # Se não está na seção Stack, atualizar antes de codar!
-git add .dtc/context.md
-git commit -m "docs(.dtc): update context.md to reflect Python/FastAPI stack"
-
-# 2. Criar DTR específico para feature existente
-mkdir .dtc/tasks/DTR-feature-user-management-001
-cp ../templates/DTR-template.md .dtc/tasks/DTR-feature-user-management-001.md
-# ... editar com requisitos ...
-
-git add .dtc/tasks/DTR-feature-user-management-001.md
-git commit -m "docs(.dtc): add DTR for user management feature"
-
-# 3. Criar DTI e DTA (se necessário)
-cp ../templates/DTI-template.md .dtc/tasks/DTI-feature-user-management-001.md
-cp ../templates/DTA-template.md .dtc/tasks/DTA-feature-user-management-001.md
-# ... editar especificações ...
-
-git add .dtc/tasks/DTI* .dtc/tasks/DTA*.md
-git commit -m "docs(.dtc): add DTI and DTA for user management feature"
-
-# 4. Implementar e testar conforme fluxo incremental (passos anteriores)
-```
-
----
-
-## Fluxo para Grandes Refatorações
-
-
-## Fluxo para Projetos Legados (Retrofitting)
-**Quando**: Ao adotar a metodologia DTF em um projeto já em produção.
-
-```bash
-# Passo 1: Auditoria de Contexto
-# Identifique a stack, convenções atuais e dependências.
-# Crie o .dtc/context.md baseado no estado atual do sistema.
-
-# Passo 2: Registro de Decisões Críticas
-# Identifique as 3-5 decisões arquiteturais mais importantes que não estão documentadas.
-# Crie ADRs para elas em .dtc/decisions/ (ex: 001-database, 002-auth).
-
-# Passo 3: Novo Ciclo
-# A partir daqui, toda nova feature ou mudança significativa deve seguir o fluxo padrão.
-```
-
----
-
-## Níveis de Complexidade (S, M, L)
-Para evitar sobrecarga em tarefas triviais, utilizamos níveis de complexidade:
-
-| Nível | Tipo de Tarefa | Fluxo Exigido |
-|-------|----------------|---------------|
-| **S (Small)** | Mudanças de UI, textos, correções simples de bugs. | Contexto $\rightarrow$ DTR $\rightarrow$ Código |
-| **M (Medium)** | Novas features de negócio, integrações de API simples. | Contexto $\rightarrow$ DTR $\rightarrow$ DTI $\rightarrow$ DTA $\rightarrow$ Código |
-| **L (Large)** | Mudanças arquiteturais, novos serviços, migrações de DB. | Contexto $\rightarrow$ ADR $\rightarrow$ DTR $\rightarrow$ DTI $\rightarrow$ DTA $\rightarrow$ Código |
-
----
-
-## Checklist de Qualidade do Workflow DTF
-
-### Antes de Codar Primeira Feature:
-
-```markdown
-✅ `.dtc/context.md` existe e está atualizado
-✅ Stack tecnológico documentado em .dtc/context.md
-✅ Convenções de código especificadas (.dtc/context.md)
-✅ Estrutura de diretórios definida
-✅ Referências a templates incluídas
-```
-
-### Para Cada Feature Nova:
-
-```markdown
-✅ DTR específico criado (`.dtc/tasks/DTR-feature-X-001.md`)
-✅ DTI específico elaborado (`.dtc/tasks/DTI-feature-X-001.md`)
-✅ DTA definido para validação (`.dtc/tasks/DTA-feature-X-001.md`)
-✅ Código implementado seguindo DTI especificado
-✅ Testes escritos conforme checklist DTA
-```
-
-### Após Implementar Feature:
-
-```markdown
-✅ Critérios de aceitação do DTA validados
-✅ Code review baseado em critérios DTA feito
-✅ `.dtc/context.md` atualizado se necessário (stack, convenções)
-✅ ADR criado para decisões arquiteturais importantes
-```
-
----
-
-## Integração com CI/CD
-
-### GitHub Actions Workflow:
-
-```yaml
-name: DTF Validation Workflow
-on: [pull_request]
-
-jobs:
-  validate-dtf-docs:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Install dependencies
-        run: pip install dtf-validator pytest httpx
-        
-      - name: Validate .dtc/ exists (PR requirement)
-        if: github.event_name == 'pull_request'
-        run: |
-          if [ ! -f ".dtc/context.md" ]; then
-            echo "❌ Missing .dtc/context.md in PR. Create DTC documentation first!"
-            exit 1
-          fi
-          
-      - name: Validate template consistency  
-        run: dtf lint --strict .dtc/
-        
-      - name: Run acceptance tests (from DTAs)
-        run: pytest --acceptance-tests tests/acceptance/
-```
-
----
-
-> *"DTF é incremental. Comece pequeno, evolua conforme o projeto cresce."*  
-> Referências: [.dtc/context.md](../.dtc/context.md), [`foundation/workflow.md`](../../methodology/workflow.md)
